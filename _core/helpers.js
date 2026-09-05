@@ -307,11 +307,9 @@ return (function build({ dv, require, app }) {
     ["activity", "Vault Health", "Vault Health.md"],
   ];
   function mountNav(rootEl) {
-    if (rootEl.querySelector(".sbx-nav") || document.body.querySelector(".sbx-nav")) return;
     rootEl.classList.add("has-nav");
-    const isMobile = document.body.classList.contains("is-mobile") || window.innerWidth <= 1100;
-    const host = isMobile ? document.body : rootEl;
-    const rail = host.createDiv({ cls: "sbx-nav", attr: { "aria-label": "Domain navigation" } });
+    if (document.body.querySelector(".sbx-nav")) return;
+    const rail = document.body.createDiv({ cls: "sbx-nav", attr: { "aria-label": "Domain navigation" } });
     const activeName = (app.workspace.getActiveFile && app.workspace.getActiveFile()?.name) || "";
     NAV.forEach(([iconName, label, filename]) => {
       const item = rail.createDiv({
@@ -331,7 +329,7 @@ return (function build({ dv, require, app }) {
       tab.onclick = e => { e.stopPropagation(); rail.classList.toggle("is-open"); };
     }
     rail.onclick = () => { if (rail.classList.contains("is-open")) rail.classList.remove("is-open"); };
-    if (isMobile) {
+    if (document.body.classList.contains("is-mobile") || window.innerWidth <= 1100) {
       document.addEventListener("click", e => { if (!rail.contains(e.target) && rail.classList.contains("is-open")) rail.classList.remove("is-open"); }, true);
     }
     return rail;

@@ -256,6 +256,8 @@ body.atelier-lab-active .markdown-preview-view {
 .sbx-nav-create { margin-top: 4px; border-top: 1px solid rgba(255,255,255,.08); padding-top: 10px; }
 .sbx-nav-tab { display: none; width: 40px; height: 40px; align-items: center; justify-content: center; border-radius: 12px; color: var(--atelier-copper); }
 .sbx-nav-tab .adx-icon { width: 20px; height: 20px; }
+/* Hide the global rail when no dashboard note is open. */
+body:not(:has(.dashboard-layout)) .sbx-nav { display: none; }
 @media (max-width: 1100px) and (min-width: 621px) {
   .adx.has-nav { padding-left: 72px; }
   .sbx-nav { position: fixed; top: 50%; left: 12px; bottom: auto; transform: translateY(-50%); flex-direction: column; padding: 6px; max-height: 80vh; overflow-y: auto; }
