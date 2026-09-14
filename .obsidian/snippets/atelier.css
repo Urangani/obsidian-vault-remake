@@ -248,7 +248,9 @@ body.atelier-lab-active .markdown-preview-view {
 
 /* Atelier Lab cross-domain navigation rail */
 .adx.has-nav { padding-left: 72px; }
-.sbx-nav { position: fixed; top: 50%; left: 12px; bottom: auto; transform: translateY(-50%); z-index: 998; display: flex; flex-direction: column; gap: 6px; padding: 8px; border: 1px solid rgba(255,255,255,.12); border-radius: 18px; background: rgba(12,15,20,.72); backdrop-filter: blur(12px); max-height: 80vh; overflow-y: auto; touch-action: none; user-select: none; cursor: grab; }
+.sbx-nav { position: fixed; top: 50%; left: 12px; bottom: auto; transform: translateY(-50%); z-index: 998; display: flex; flex-direction: column; gap: 6px; padding: 8px; border: 1px solid rgba(255,255,255,.12); border-radius: 18px; background: rgba(12,15,20,.72); backdrop-filter: blur(12px); max-height: 80vh; overflow-y: auto; touch-action: none; user-select: none; }
+body.is-mobile .sbx-nav { cursor: grab; }
+@media (max-width: 620px) { .sbx-nav { cursor: grab; } }
 .sbx-nav.is-dragging { cursor: grabbing; }
 .sbx-nav.is-dragging .sbx-nav-item, .sbx-nav.is-dragging .sbx-nav-tab { transition: none !important; }
 .sbx-nav-item { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 12px; color: var(--atelier-muted); cursor: pointer; transition: color .2s, background .2s, transform .15s; }
