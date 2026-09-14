@@ -3,5 +3,9 @@
   "livePreview": true,
   "alwaysUpdateLinks": true,
   "attachmentFolderPath": "Attachments",
-  "showInlineTitle": false
+  "showInlineTitle": false,
+  "openBehavior": "file:Home.md",
+  "newFileLocation": "folder",
+  "newFileFolderPath": "Notes",
+  "showUnsupportedFiles": false
 }
