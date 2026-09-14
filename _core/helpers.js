@@ -320,6 +320,13 @@ return (function build({ dv, require, app }) {
     rootEl.classList.add("has-nav");
     if (document.body.querySelector(".sbx-nav")) return;
     const rail = document.body.createDiv({ cls: "sbx-nav", attr: { "aria-label": "Domain navigation" } });
+    // Restore a previously dragged position; overrides the translateY centering.
+    const savedPos = store.get("nav-pos", null);
+    if (savedPos && Number.isFinite(savedPos.x) && Number.isFinite(savedPos.y)) {
+      rail.style.left = `${savedPos.x}px`;
+      rail.style.top = `${savedPos.y}px`;
+      rail.style.transform = "none";
+    }
     const activeName = (app.workspace.getActiveFile && app.workspace.getActiveFile()?.name) || "";
     NAV.forEach(([iconName, label, filename]) => {
       const item = rail.createDiv({
@@ -339,6 +346,41 @@ return (function build({ dv, require, app }) {
       tab.onclick = e => { e.stopPropagation(); rail.classList.toggle("is-open"); };
     }
     rail.onclick = () => { if (rail.classList.contains("is-open")) rail.classList.remove("is-open"); };
+
+    // Draggable rail — Pointer Events unify touch + mouse; a real drag suppresses the tap toggle.
+    let drag = null, dragged = false;
+    rail.addEventListener("pointerdown", e => {
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      dragged = false;
+      drag = { startX: e.clientX, startY: e.clientY, left: rail.offsetLeft, top: rail.offsetTop };
+      rail.setPointerCapture(e.pointerId);
+    });
+    rail.addEventListener("pointermove", e => {
+      if (!drag) return;
+      const dx = e.clientX - drag.startX, dy = e.clientY - drag.startY;
+      if (!dragged && Math.hypot(dx, dy) < 6) return;
+      dragged = true;
+      const w = window.innerWidth, h = window.innerHeight;
+      const top = Math.min(Math.max(8, drag.top + dy), Math.max(8, h - rail.offsetHeight - 8));
+      const left = Math.min(Math.max(8, drag.left + dx), Math.max(8, w - rail.offsetWidth - 8));
+      rail.style.left = `${left}px`;
+      rail.style.top = `${top}px`;
+      rail.style.transform = "none";
+      rail.classList.add("is-dragging");
+    });
+    const endDrag = () => {
+      if (!drag) return;
+      if (dragged) store.set("nav-pos", { x: rail.offsetLeft, y: rail.offsetTop });
+      rail.classList.remove("is-dragging");
+      drag = null;
+    };
+    rail.addEventListener("pointerup", endDrag);
+    rail.addEventListener("pointercancel", endDrag);
+    // The browser fires a click after pointerup — swallow it so a drag never toggles the menu.
+    rail.addEventListener("click", e => {
+      if (dragged) { e.stopPropagation(); e.preventDefault(); dragged = false; }
+    }, true);
+
     if (document.body.classList.contains("is-mobile") || window.innerWidth <= 1100) {
       document.addEventListener("click", e => { if (!rail.contains(e.target) && rail.classList.contains("is-open")) rail.classList.remove("is-open"); }, true);
     }
