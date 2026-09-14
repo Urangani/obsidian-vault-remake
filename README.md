@@ -67,6 +67,19 @@ Requires desktop Obsidian ≥ 1.5. Internet needed once (plugin install) and for
 
 **Docs:** [novel-byte.github.io/atelier-lab](https://novel-byte.github.io/atelier-lab/)
 
+## Guides
+
+Living documentation inside the vault (`_guides/`):
+
+| Guide | What it covers |
+|---|---|
+| [`_guides/Dashboard-guide.md`](_guides/Dashboard-guide.md) | Every dashboard: purpose, how to read it, data source |
+| [`_guides/Workflow-guide.md`](_guides/Workflow-guide.md) | Daily capture → sort → do loop, role flows, reviews |
+| [`_guides/Structure-guide.md`](_guides/Structure-guide.md) | Folder map, frontmatter conventions, status vocabularies |
+| [`_guides/Template-guide.md`](_guides/Template-guide.md) | Light vs full templates, auto-skeleton engine, adding domains |
+| [`_guides/Customization-guide.md`](_guides/Customization-guide.md) | CSS, the `H.*` runtime, nav rail, vendored deps |
+| [`_guides/Improvement-plan.md`](_guides/Improvement-plan.md) | Confirmed structural gaps + recommended fixes |
+
 ## Credits
 
 Built with [Dataview](https://github.com/blacksmithgu/obsidian-dataview), [Tasks](https://github.com/obsidian-tasks-group/obsidian-tasks), [Templater](https://github.com/SilentVoid13/Templater), [Homepage](https://github.com/mirnovov/obsidian-homepage) — and vendored [three.js](NOTICE). Layout inspiration from the Obsidian dashboard community.
