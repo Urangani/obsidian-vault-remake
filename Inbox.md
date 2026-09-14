@@ -8,7 +8,7 @@ cssclasses: [dashboard-layout, atelier-dashboard-page]
 (async () => {
 const f = (app.vault.getAbstractFileByPath("_core/helpers.js") || app.vault.getAbstractFileByPath(H.path("_core/helpers.js")));
 const H = new Function("dv", "require", "app", await app.vault.read(f))(dv, require, app);
-const { icon, open, sectionHead, empty, relative, store, captureToInbox } = H;
+const { icon, open, sectionHead, empty, relative, store, captureToInbox, kindToggle, completeTask } = H;
 
 const root = dv.container.createDiv({ cls: "adx adx-enter" });
 H.mountNav(root);
@@ -36,10 +36,15 @@ const heroSub = hero.createDiv({ cls: "adx-hero-sub", text: "Capture from any da
 
 // quick capture
 const quick = hero.createDiv({ cls: "adx-capture" });
-const quickInput = quick.createEl("input", { attr: { placeholder: "Capture to today's inbox…" } });
+const quickInput = quick.createEl("input");
+let captureKind = store.get("capture-kind", "note");
+const setPlaceholder = () => quickInput.placeholder = `Capture a ${captureKind === "task" ? "task" : "note"} to today's inbox…`;
+setPlaceholder();
+kindToggle(quick, captureKind, v => { captureKind = v; setPlaceholder(); });
 quickInput.onkeydown = async e => {
   if (e.key !== "Enter" || !quickInput.value.trim()) return;
-  await captureToInbox(quickInput.value, "thought");
+  store.set("capture-kind", captureKind);
+  await captureToInbox(quickInput.value, captureKind === "task" ? "task" : "thought");
   quickInput.value = "";
   render();
 };
@@ -75,25 +80,47 @@ function render() {
   if (!file) { empty(detail, "No captures for this day yet."); return; }
 
   app.vault.read(file).then(content => {
-    const rows = [];
+    const tasks = [];
+    const notes = [];
+    const filePath = H.path(`Inbox/${selected}.md`);
     const lines = String(content).split("\n");
-    lines.forEach(line => {
+    lines.forEach((line, idx) => {
       let m = line.match(/^\s*- \[( |x)\] (.*)$/);
-      if (m) { rows.push({ text: m[2].trim(), done: m[1].toLowerCase() === "x" }); return; }
+      if (m) { tasks.push({ path: filePath, line: idx, text: m[2].trim(), done: m[1].toLowerCase() === "x" }); return; }
       m = line.match(/^\s*- (?!\[)(.*)$/);
-      if (m) rows.push({ text: m[1].trim(), done: false });
+      if (m) notes.push({ text: m[1].trim() });
     });
     const clean = t => t.replace(/\s*\*.*\*$/, "").trim();
-    const list = detail.createDiv({});
-    if (!rows.length) { empty(detail, "Nothing captured this day yet."); return; }
-    rows.forEach(r => {
-      const row = list.createDiv({ cls: "adx-note-row" });
-      icon(row, r.done ? "check-circle" : "circle");
-      const body = row.createDiv({ cls: "adx-note-body" });
-      body.createDiv({ cls: "adx-note-title", text: clean(r.text) });
-      if (r.done) body.createDiv({ cls: "adx-note-path", text: "done" });
-      row.onclick = () => open(H.path(`Inbox/${selected}.md`));
-    });
+    if (!tasks.length && !notes.length) { empty(detail, "Nothing captured this day yet."); return; }
+
+    const group = label => detail.createDiv({ cls: "adx-inbox-group", text: label });
+    if (tasks.length) {
+      const head = group("Tasks");
+      head.createEl("span", { cls: "adx-hint", text: `${tasks.length}` });
+      const list = detail.createDiv({ cls: "adx-inbox-tasks" });
+      tasks.forEach(r => {
+        const row = list.createDiv({ cls: "adx-note-row" });
+        const check = row.createEl("button", { cls: "adx-task-check", attr: { title: r.done ? "Completed" : "Complete task", "aria-label": "Complete task" } });
+        icon(check, r.done ? "check-circle" : "circle");
+        if (!r.done) check.onclick = async e => { e.stopPropagation(); if (await completeTask({ path: r.path, line: r.line })) render(); };
+        const body = row.createDiv({ cls: "adx-note-body" });
+        body.createDiv({ cls: "adx-note-title", text: clean(r.text) });
+        if (r.done) body.createDiv({ cls: "adx-note-path", text: "done" });
+        row.onclick = () => open(H.path(`Inbox/${selected}.md`));
+      });
+    }
+    if (notes.length) {
+      const head = group("Notes");
+      head.createEl("span", { cls: "adx-hint", text: `${notes.length}` });
+      const list = detail.createDiv({ cls: "adx-inbox-notes" });
+      notes.forEach(r => {
+        const row = list.createDiv({ cls: "adx-note-row" });
+        icon(row, "sticky-note");
+        const body = row.createDiv({ cls: "adx-note-body" });
+        body.createDiv({ cls: "adx-note-title", text: clean(r.text) });
+        row.onclick = () => open(H.path(`Inbox/${selected}.md`));
+      });
+    }
   });
 }
 

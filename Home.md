@@ -8,7 +8,7 @@ cssclasses: [dashboard-layout, atelier-dashboard-page]
 (async () => {
 const f = (app.vault.getAbstractFileByPath("_core/helpers.js") || app.vault.getAbstractFileByPath(H.path("_core/helpers.js")));
 const H = new Function("dv", "require", "app", await app.vault.read(f))(dv, require, app);
-const { icon, open, sectionHead, empty, relative, taskRow, store, captureToInbox, Notice } = H;
+const { icon, open, sectionHead, empty, relative, taskRow, store, captureToInbox, Notice, kindToggle, tabBar, typeIcon, taskCategories } = H;
 
 const root = dv.container.createDiv({ cls: "adx adx-enter" });
 H.mountNav(root);
@@ -19,6 +19,8 @@ const greeting = now.getHours() < 5 ? "Still awake" : now.getHours() < 12 ? "Goo
 // Data — sandbox scope only
 const labTasks = H.labPages().file.tasks.array().filter(t => H.isLab(t.path) && !t.path.includes("_templates/"));
 const openTasks = labTasks.filter(t => !t.completed);
+const typeByPath = {};
+H.labPages().forEach(p => { if (p.file && p.file.path) typeByPath[p.file.path] = p.type; });
 const doneWeek = labTasks.filter(t => t.completed && t.completion && t.completion >= dv.date("today") - dv.duration("7 days"));
 const projects = dv.pages(H.q("Projects")).where(p => p.type === "project" && H.ACTIVE_PROJECT.includes(p.status)).array();
 const books = dv.pages(H.q("Books")).where(p => p.type === "book" && p.status === "reading").array();
@@ -54,9 +56,14 @@ search.onclick = () => app.commands.executeCommandById("switcher:open");
 const capture = command.createDiv({ cls: "adx-command-item adx-capture" });
 icon(capture, "plus");
 const captureInput = capture.createEl("input", { attr: { placeholder: "Capture to the Lab inbox..." } });
+let captureKind = store.get("capture-kind", "note");
+const setCapturePlaceholder = () => captureInput.placeholder = `Capture ${captureKind === "task" ? "a task" : "a note"} to the Lab inbox…`;
+setCapturePlaceholder();
+kindToggle(capture, captureKind, v => { captureKind = v; setCapturePlaceholder(); });
 captureInput.onkeydown = async e => {
   if (e.key !== "Enter" || !captureInput.value.trim()) return;
-  await captureToInbox(captureInput.value, "thought");
+  store.set("capture-kind", captureKind);
+  await captureToInbox(captureInput.value, captureKind === "task" ? "task" : "thought");
   captureInput.value = "";
 };
 
@@ -67,7 +74,8 @@ createBtn.onclick = () => app.commands.executeCommandById("atelier-tools:new-not
 // Navigation — Lab-internal
 const nav = root.createDiv({ cls: "adx-nav" });
 [["graduation-cap","Academics",H.path("Academics.md")],["code-2","Programming",H.path("Programming.md")],
- ["blocks","Projects",H.path("Projects.md")],["book-open","Library",H.path("Library.md")],
+ ["blocks","Projects",H.path("Projects.md")],["check-square","Tasks",H.path("Tasks.md")],
+ ["book-open","Library",H.path("Library.md")],
  ["briefcase-business","Career",H.path("Jobs.md")],["microscope","Research",H.path("Research.md")],
  ["heart-pulse","Life",H.path("Life.md")],["users","People",H.path("People.md")],
  ["palette","Culture",H.path("Culture.md")],["headphones","Lo-fi",H.path("Lo-fi Workspace.md")],
@@ -80,9 +88,24 @@ const side = grid.createDiv({ cls: "adx-column adx-side" });
 
 // Pipeline
 const pipeline = main.createDiv({ cls: "adx-panel adx-pipeline" });
-sectionHead(pipeline, "Today / Pipeline", `${openTasks.length} open`);
-[...openTasks].sort((a, b) => (a.due?.ts || 9e15) - (b.due?.ts || 9e15)).slice(0, 7)
-  .forEach(t => taskRow(pipeline, t));
+sectionHead(pipeline, "Today / Pipeline", "All tasks", () => open(H.path("Tasks.md")));
+const pipeNav = pipeline.createDiv({ cls: "adx-nav adx-task-nav" });
+const pipeCount = pipeNav.createDiv({ cls: "adx-hint" });
+const pipeList = pipeline.createDiv({});
+const pipeCats = taskCategories(openTasks, typeByPath);
+let pipeFilter = store.get("home-pipe-filter", "all");
+const renderPipeline = () => {
+  const items = (pipeFilter === "all" ? openTasks : openTasks.filter(t => (typeByPath[t.path] || "other") === pipeFilter))
+    .sort((a, b) => (a.due?.ts || 9e15) - (b.due?.ts || 9e15)).slice(0, 7);
+  pipeCount.textContent = `${items.length} shown`;
+  pipeNav.innerHTML = "";
+  tabBar(pipeNav, [["list", "All", "all"], ...pipeCats.map(([c]) => [typeIcon(c), c.replace(/_/g, " "), c])], pipeFilter, v => { pipeFilter = v; store.set("home-pipe-filter", v); renderPipeline(); });
+  pipeNav.appendChild(pipeCount);
+  pipeList.innerHTML = "";
+  if (!items.length) { empty(pipeList, "No open tasks in this category."); return; }
+  items.forEach(t => taskRow(pipeList, t));
+};
+renderPipeline();
 
 // Projects
 const work = main.createDiv({ cls: "adx-section" });

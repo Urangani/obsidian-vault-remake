@@ -290,6 +290,24 @@ body.is-mobile .sbx-nav-item .adx-icon { width: 20px; height: 20px; }
 .adx-capture input::placeholder { color: var(--atelier-faint); }
 .adx-capture:focus-within { border-color: rgba(211,148,103,.65); background: rgba(211,148,103,.05); box-shadow: 0 0 0 3px rgba(211,148,103,.06); }
 .adx-day-row { padding-top: 4px; }
+/* Kind toggle — segmented Note / Task control for capture inputs */
+.adx-kind-switch { display: flex; flex: 0 0 auto; align-items: center; gap: 2px; padding: 3px; border: 1px solid var(--atelier-line); border-radius: 999px; background: rgba(0,0,0,.22); }
+.adx-kind-option { display: flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 999px; color: var(--atelier-faint); font: 10px var(--atelier-mono); text-transform: uppercase; letter-spacing: .06em; cursor: pointer; transition: color .15s, background .15s, border-color .15s; }
+.adx-kind-option:hover { color: var(--atelier-ink); }
+.adx-kind-option.is-active { color: #17120f; background: var(--atelier-copper); }
+.adx-kind-option .adx-icon { color: inherit; }
+.adx-kind-option .adx-icon svg { width: 13px; height: 13px; }
+.adx-capture { flex-wrap: wrap; padding-block: 6px; }
+.adx-capture input, .adx-command-item.adx-capture input { min-width: 200px; }
+.adx-command-item.adx-capture { min-height: 52px; }
+/* Inbox day detail — Tasks vs Notes split */
+.adx-inbox-group { display: flex; align-items: center; gap: 8px; margin-top: 18px; padding-bottom: 7px; border-bottom: 1px solid var(--atelier-line); color: var(--atelier-copper); font: 500 11px/1.4 var(--atelier-mono); letter-spacing: .14em; text-transform: uppercase; }
+.adx-inbox-group:first-of-type { margin-top: 0; }
+.adx-inbox-tasks, .adx-inbox-notes { margin-bottom: 6px; }
+/* Category filter rows on Home pipeline + Tasks dashboard */
+.adx-task-nav { padding-bottom: 14px; flex-wrap: wrap; gap: 6px; }
+.adx-task-nav .adx-nav-item:first-child { color: var(--atelier-muted); }
+.adx-task-nav .adx-hint { margin-left: auto; }
 .adx-create-overlay { position: fixed; inset: 0; z-index: 9999; display: grid; place-items: center; background: rgba(3,5,9,.72); backdrop-filter: blur(14px); animation: adx-enter .2s ease both; }
 .adx-create-modal { width: min(440px, calc(100vw - 32px)); display: grid; gap: 12px; padding: 24px; border: 1px solid rgba(241,238,231,.16); border-radius: 20px; background: #171a20; box-shadow: 0 30px 100px rgba(0,0,0,.65); }
 .adx-create-select, .adx-create-input { width: 100%; min-height: 42px; padding: 10px 12px; color: var(--atelier-ink); background: #0e1014; border: 1px solid var(--atelier-line); border-radius: 9px; outline: none; }

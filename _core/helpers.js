@@ -261,24 +261,16 @@ return (function build({ dv, require, app }) {
     return btn;
   }
 
-  // ---------- filter tab bar ----------
-  function tabBar(parent, defs, current, onChange) {
-    parent.innerHTML = "";
-    defs.forEach(([iconName, text, value]) => {
-      const item = parent.createDiv({ cls: `adx-nav-item${value === current ? " is-active" : ""}`, attr: { "data-filter": value } });
-      icon(item, iconName); item.createEl("span", { text });
-      item.onclick = () => onChange(value);
+  // ---------- kind toggle (note / task) ----------
+  // Segmented control used by capture inputs; selection is stored under "capture-kind".
+  function kindToggle(parent, current, onChange) {
+    const wrap = parent.createDiv({ cls: "adx-kind-switch" });
+    [["sticky-note", "Note", "note"], ["circle-dot", "Task", "task"]].forEach(([iconName, text, value]) => {
+      const opt = wrap.createDiv({ cls: `adx-kind-option${value === current ? " is-active" : ""}`, attr: { title: `Capture as ${text}`, "aria-label": `Capture as ${text}` } });
+      icon(opt, iconName); opt.createEl("span", { text });
+      opt.onclick = () => { wrap.querySelectorAll(".adx-kind-option").forEach(x => x.classList.remove("is-active")); opt.classList.add("is-active"); onChange(value); };
     });
-    return parent;
-  }
-
-  // ---------- back-to-home floating button ----------
-  function mountHome(rootEl) {
-    if (rootEl.querySelector(".sbx-home-fab")) return;
-    const btn = rootEl.createDiv({ cls: "sbx-home-fab", attr: { title: "Back to Home", "aria-label": "Back to Home" } });
-    icon(btn, "home");
-    btn.onclick = () => open(path("Home.md"));
-    return btn;
+    return wrap;
   }
 
   // ---------- filter tab bar ----------
@@ -290,12 +282,30 @@ return (function build({ dv, require, app }) {
       item.onclick = () => onChange(value);
     });
     return parent;
+  }
+
+  // ---------- task category metadata ----------
+  const TYPE_ICONS = {
+    project: "rocket", course: "graduation-cap", assignment: "clipboard-list",
+    inbox: "inbox", life_area: "heart-pulse", work: "palette",
+    job_application: "briefcase-business", book: "book-open",
+    research_question: "microscope", coding_problem: "code-2",
+    concept: "lightbulb", source: "link", person: "user",
+    focus_session: "timer", focus_log: "timer", dashboard: "layout-dashboard",
+  };
+  const typeIcon = type => TYPE_ICONS[type] || "circle";
+  // Distinct source-note types among open tasks, plus their counts.
+  function taskCategories(tasks, typeByPath) {
+    const counts = {};
+    tasks.forEach(t => { const c = typeByPath[t.path] || "other"; counts[c] = (counts[c] || 0) + 1; });
+    return Object.entries(counts).sort((a, b) => b[1] - a[1]);
   }
 
   // ---------- cross-domain navigation rail ----------
   const NAV = [
     ["home", "Home", "Home.md"],
     ["inbox", "Inbox", "Inbox.md"],
+    ["check-square", "Tasks", "Tasks.md"],
     ["book-open", "Academics", "Academics.md"],
     ["code-2", "Programming", "Programming.md"],
     ["rocket", "Projects", "Projects.md"],
@@ -341,5 +351,6 @@ return (function build({ dv, require, app }) {
     path, q, isLab, pagesIn, labPages, store,
     completeTask, taskRow, form, createNote, patchFrontmatter,
     logFocusSession, captureToInbox, tabBar, mountHome, mountNav, Notice,
+    kindToggle, typeIcon, taskCategories,
   };
 })({ dv, require, app });
