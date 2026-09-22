@@ -24,9 +24,9 @@ const orphans = lab.filter(p => !p.file.inlinks.length && !p.file.outlinks.lengt
 
 const hero = root.createDiv({ cls: "adx-hero" });
 const copy = hero.createDiv({ cls: "adx-hero-copy" });
-copy.createDiv({ cls: "adx-date", text: "VAULT HEALTH / LAB" });
-copy.createEl("h1", { text: "Keep the Lab trustworthy." });
-copy.createDiv({ cls: "adx-focus", text: "Unknown statuses, malformed values and isolated notes — scoped to Atelier Lab only." });
+copy.createDiv({ cls: "adx-date", text: "VAULT HEALTH" });
+copy.createEl("h1", { text: "Keep the vault trustworthy." });
+copy.createDiv({ cls: "adx-focus", text: "Unknown statuses, malformed values and isolated notes — scoped to this sandbox vault." });
 
 const grid = root.createDiv({ cls: "adx-grid" });
 const main = grid.createDiv({ cls: "adx-column adx-main" });
@@ -34,7 +34,7 @@ const side = grid.createDiv({ cls: "adx-column adx-side" });
 
 const metrics = side.createDiv({ cls: "adx-panel adx-academic-stats" });
 metrics.createDiv({ cls: "adx-label", text: "Health signal" });
-[[lab.length, "lab notes"], [missingType.length, "missing type"],
+[[lab.length, "notes"], [missingType.length, "missing type"],
  [unknownStatus.length + badProgress.length, "bad values"], [orphans.length, "orphans"]]
   .forEach(([n, l]) => { const s = metrics.createDiv(); s.createEl("strong", { text: String(n) }); s.createEl("span", { text: l }); });
 
@@ -43,7 +43,7 @@ const issues = [...unknownStatus.map(p => [p, `Unknown ${p.type} status: "${p.st
                 ...missingType.map(p => [p, "missing type"])];
 const issuePanel = main.createDiv({ cls: "adx-panel" });
 issuePanel.createDiv({ cls: "adx-label", text: "Notes needing attention" });
-if (!issues.length) empty(issuePanel, "No metadata issues in the Lab.");
+if (!issues.length) empty(issuePanel, "No metadata issues.");
 issues.slice(0, 25).forEach(([p, reason]) => {
   const row = issuePanel.createDiv({ cls: "adx-note-row" }); icon(row, "alert-triangle");
   const body = row.createDiv({ cls: "adx-note-body" });

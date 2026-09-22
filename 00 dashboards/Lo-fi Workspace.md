@@ -109,7 +109,7 @@ if (!REDUCED) (async () => {
   const sweepOff = () => clearInterval(sweep);
 })();
 const panel = root.createDiv({ cls: "lofi-panel" });
-panel.createDiv({ cls: "lofi-kicker", text: "ATELIER LAB / LO-FI ROOM" });
+panel.createDiv({ cls: "lofi-kicker", text: "LO-FI ROOM" });
 panel.createEl("h1", { text: "Stay with the work." });
 const label = panel.createEl("input", { cls: "lofi-label-input", attr: { value: state.label, placeholder: "Session label" } });
 const clock = panel.createDiv({ cls: "lofi-clock" });

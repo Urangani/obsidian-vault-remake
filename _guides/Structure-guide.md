@@ -43,7 +43,7 @@ vault root/
 ├── Attachments/                    ← images, files
 ├── Notes/                          ← general notes (utility, reviews)
 │
-├── Home.md, Tasks.md, ...          ← dashboard root files
+├── 00 dashboards/                   ← Home + domain studios (was vault root)
 ├── README.md                       ← vault description (external-facing)
 ├── START HERE.md                   ← first-open quickstart
 └── AGENTS.md                       ← AI/developer architecture reference

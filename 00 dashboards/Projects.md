@@ -18,7 +18,7 @@ const tasks = H.labPages().file.tasks.array().filter(t => H.isLab(t.path) && !t.
 
 const hero = root.createDiv({ cls: "adx-hero" });
 const copy = hero.createDiv({ cls: "adx-hero-copy" });
-copy.createDiv({ cls: "adx-date", text: "PROJECT ATELIER / SANDBOX" });
+copy.createDiv({ cls: "adx-date", text: "PROJECT STUDIO" });
 copy.createEl("h1", { text: "Ship small things." });
 copy.createDiv({ cls: "adx-focus", text: "Status pills are editable inline — pick a stage right on the card." });
 const orbit = hero.createDiv({ cls: "adx-orbit" }); orbit.createDiv({ cls: "adx-orbit-ring" });
@@ -84,7 +84,7 @@ newBtn.onclick = async () => {
     (await app.vault.read(app.vault.getAbstractFileByPath(H.path("_templates/Project.md"))))
       .replace(/\{\{title\}\}/g, safeN).replace(/\{\{date:YYYY-MM-DD\}\}/g, window.moment().format("YYYY-MM-DD"))),
     { tags: ["sandbox/project"] });
-  await app.vault.create(`${base}/Changelog.md`, `# ${safeN} / Changelog\n\n## ${window.moment().format("YYYY-MM-DD")}\n- Created in the Lab.\n`);
+  await app.vault.create(`${base}/Changelog.md`, `# ${safeN} / Changelog\n\n## ${window.moment().format("YYYY-MM-DD")}\n- Created here.\n`);
   new Notice("Project space created."); setTimeout(() => location.reload(), 500);
 };
 render();

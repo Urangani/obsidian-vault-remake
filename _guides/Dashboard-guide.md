@@ -27,14 +27,13 @@ Every dashboard is a markdown note with `type: dashboard` in the frontmatter and
 | [[Culture]] | "Pay attention." | Cultural works | `Works/` |
 | [[Playground]] | "Make room for wonder." | Whole vault (serendipity) | Random `labPages()` |
 | [[Lo-fi Workspace]] | — (immersive scene) | Focus sessions | `Sessions/YYYY-MM-DD.md` logging |
-| [[Vault Health]] | "Keep the Lab trustworthy." | Metadata integrity | All `labPages()` diagnostics |
-| People | — | People | `People/` *(dashboard not built yet)* |
+| [[Vault Health]] | "Keep the vault trustworthy." | Metadata integrity | All `labPages()` diagnostics |
 
 ## Common anatomy
 
 All dashboards share the same skeleton. Once you can read one, you can read them all:
 
-1. **Hero** — the date eyebrow ("PROJECT ATELIER / SANDBOX"), a tagline, and a short "how to use this page" hint. The **orbit ring** (top-right) is a single headline signal: project count, open questions, books tracked, works count.
+1. **Hero** — the date eyebrow (e.g. "PROJECT STUDIO"), a tagline, and a short "how to use this page" hint. The **orbit ring** (top-right) is a single headline signal: project count, open questions, books tracked, works count.
 2. **Tab bar** — filter pills (e.g. project status, pipeline stage). Clicking re-renders the panel below.
 3. **Main panel** — the working surface: cards, list rows, progress meters.
 4. **Side panel** — "Signal" stats or secondary lists (e.g. open tasks, health metrics).
@@ -115,7 +114,7 @@ All dashboards share the same skeleton. Once you can read one, you can read them
 
 The left rail (see `_core/helpers.js:305-318`) is the cross-domain spine: Home, Inbox, Tasks, Academics, Programming, Projects, Library, Jobs, Research, Life, Culture, Vault Health, plus a **+** create button that opens the typed Create modal. On phones the rail becomes a draggable bubble (position persists per-device).
 
-> Note: **People.md exists at the root but is empty** — the People dashboard was never built and is not in the rail. It's either a future studio (People/ notes already have templates) or dead weight. See [[Improvement-plan]].
+> People were removed from the rail in the audit: `People.md` was deleted and the Home tile dropped. `People/` and its templates still exist if a People studio is ever wanted.
 
 ## Editing a dashboard
 

@@ -19,7 +19,7 @@ const tasks = H.labPages().file.tasks.array().filter(t => H.isLab(t.path) && !t.
 
 const hero = root.createDiv({ cls: "adx-hero" });
 const copy = hero.createDiv({ cls: "adx-hero-copy" });
-copy.createDiv({ cls: "adx-date", text: "PROGRAMMING LAB / SANDBOX" });
+copy.createDiv({ cls: "adx-date", text: "PROGRAMMING STUDIO" });
 copy.createEl("h1", { text: "Build fluency." });
 copy.createDiv({ cls: "adx-focus", text: "Confidence dots are clickable — set your level right on the radar." });
 const orbit = hero.createDiv({ cls: "adx-orbit" }); orbit.createDiv({ cls: "adx-orbit-ring" });
@@ -88,12 +88,12 @@ const render = () => {
 render();
 
 const queuePanel = main.createDiv({ cls: "adx-panel" });
-queuePanel.createDiv({ cls: "adx-label", text: "Lab queue" });
-if (!tasks.length) empty(queuePanel, "No open lab tasks.");
+queuePanel.createDiv({ cls: "adx-label", text: "Review queue" });
+if (!tasks.length) empty(queuePanel, "No open tasks to review.");
 tasks.slice(0, 7).forEach(t => taskRow(queuePanel, t));
 
 const principle = side.createDiv({ cls: "adx-panel adx-reading-principles" });
-principle.createDiv({ cls: "adx-label", text: "The lab rule" });
+principle.createDiv({ cls: "adx-label", text: "The daily rule" });
 principle.createEl("blockquote", { text: "Every idea gets a tiny example. Every example gets a question." });
 
 const stats = side.createDiv({ cls: "adx-panel adx-academic-stats" });

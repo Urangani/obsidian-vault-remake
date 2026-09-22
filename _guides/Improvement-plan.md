@@ -5,7 +5,7 @@ tags: [sandbox]
 
 # Improvement-plan.md
 
-> Confirmed gaps from a full vault audit, each with a recommendation, effort estimate, and the question it raises. No changes made yet — decide, then execute one at a time.
+> Confirmed gaps from a full vault audit, each with a recommendation, effort estimate, and the question it raises. Status reflects the **2026-09-22 build** — after structural changes, reload Obsidian (no hot reload) and re-run [[Vault Health]].
 
 ---
 
@@ -65,3 +65,18 @@ tags: [sandbox]
 5. **#4/#5** — maintenance habits, not one-off tasks
 
 Each item is independent. Do them in Obsidian's UI or ask the agent to execute — but always reload (no hot reload) and re-run [[Vault Health]] after structural changes.
+
+---
+
+## Status (2026-09-22 build)
+
+| # | Item | Status |
+|---|------|--------|
+| 1 | People.md stub | **Done — deleted.** `People.md` removed; Home tile dropped. `People/` + templates remain for a future studio. |
+| 2/3 | Dashboards at root / clutter | **Done — Option B.** All 14 dashboards moved to `00 dashboards/`. `NAV`, `mountHome`, Home tiles, Playground links and the Homepage plugin point at the folder. Root is now meta files only. |
+| 4 | Missing light twins | Open — revisit only if mapped folders are created for session/review/daily types. |
+| 5 | `KIND_FRONTMATTER` holes | Habit — extend whenever a new note kind is added. |
+| 6 | Status vocabularies | **Decided: leave freeform** for non-core types. |
+| 7 | README plugin list | **Done — table trimmed** to Dataview, Templater, Homepage, Atelier Tools; Tasks/Periodic/Calendar/Style noted as optional. |
+
+Also shipped with this build (from Dashboard Review): "Lab"/"Atelier" visible strings removed vault-wide, Home hero now shows all-time tasks-completed %, Recently-touched replaced with a Recently-created panel, 12-week heatmap + focus-room panel removed, capture input spans the command grid with uniform radius, `.adx-nav` scrollbars hide until hover, Inbox row checkboxes are always visible, and the Academics tab bar sits below the hero.

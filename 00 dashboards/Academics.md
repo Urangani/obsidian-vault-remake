@@ -20,19 +20,19 @@ const tasks = H.labPages().file.tasks.array().filter(t => H.isLab(t.path) && !t.
 
 const hero = root.createDiv({ cls: "adx-hero" });
 const copy = hero.createDiv({ cls: "adx-hero-copy" });
-copy.createDiv({ cls: "adx-date", text: "ACADEMIC STUDIO / LAB" });
+copy.createDiv({ cls: "adx-date", text: "ACADEMIC STUDIO" });
 copy.createEl("h1", { text: "Understand deeply." });
 copy.createDiv({ cls: "adx-focus", text: "Courses, assessments, and review — sandbox edition." });
 const orbit = hero.createDiv({ cls: "adx-orbit" }); orbit.createDiv({ cls: "adx-orbit-ring" });
 orbit.createDiv({ cls: "adx-orbit-value", text: String(courses.filter(c => c.status === "active").length) });
 orbit.createDiv({ cls: "adx-orbit-label", text: "active courses" });
 
+const navBar = root.createDiv({ cls: "adx-nav" });
 const grid = root.createDiv({ cls: "adx-grid" });
 const main = grid.createDiv({ cls: "adx-column adx-main" });
 const side = grid.createDiv({ cls: "adx-column adx-side" });
 
 let tab = "courses";
-const navBar = root.createDiv({ cls: "adx-nav" });
 const panel = main.createDiv({ cls: "adx-panel" });
 const head = panel.createDiv({ cls: "adx-section-head" });
 const labelEl = head.createDiv({ cls: "adx-label" });

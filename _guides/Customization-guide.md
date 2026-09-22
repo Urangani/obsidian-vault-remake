@@ -93,7 +93,7 @@ To create a new dashboard note:
    ```
 3. Optional: add the note to `NAV` in `_core/helpers.js:305-318` and to the README table.
 
-> Note: dashboards currently sit at the vault root. If you want to reorganize them into a dedicated folder, see [[Improvement-plan]] — it affects `mountNav`/`mountHome` open paths, not the dataviewjs inside.
+> Note: dashboards live in `00 dashboards/` (the folder that used to be the vault root). `NAV` and `mountHome` reference it explicitly (`open(path("00 dashboards/Home.md"))`), so if you rename the folder, update those open paths too — the dataviewjs inside is unaffected.
 
 ---
 

@@ -15,8 +15,8 @@ A cinematic, dashboard-first Obsidian vault for students and builders — glass 
 
 ## Highlights
 
-- **Command-center Home** — editable greeting + daily focus, task pipeline with real checkboxes, project cards, weekly rhythm
-- **9 domain studios** — Academics, Programming, Projects, Library, Jobs, Research, Life, People, Culture
+- **Command-center Home** — editable greeting + daily focus, task pipeline with real checkboxes, project cards, all-time completion
+- **8 domain studios** — Academics, Programming, Projects, Library, Jobs, Research, Life, Culture
 - **Library** — search Open Library by title/author/ISBN, one-click import with cover art, page-level progress, ratings, statuses
 - **Career studio** — application funnel with inline stage changes, interview room
 - **Lo-fi workspace** — three.js rain & dust over an original pixel-city night scene, persisted focus timer, session logging, local-audio playlist
@@ -39,12 +39,11 @@ Requires desktop Obsidian ≥ 1.5. Internet needed once (plugin install) and for
 | Plugin | Why |
 |---|---|
 | **Dataview** | Powers every dashboard — *enable JavaScript Queries in its settings* |
-| **Templater** | Auto-applies metadata to new notes in domain folders |
-| **Tasks** | Task pipelines across dashboards |
+| **Templater** | Auto-applies metadata to new notes in domain folders (folder templates) |
 | **Homepage** | Opens Home on startup |
-| **Periodic Notes** + **Calendar** | Daily/weekly/monthly journaling |
-| **Style Settings** | Snippet toggles |
 | **Atelier Tools** | Bundled — quick capture (`Ctrl/Cmd+Shift+Space`) + typed note creation |
+
+Optionally install Tasks (used only for its query syntax/helpers elsewhere), Periodic Notes + Calendar, or Style Settings if you extend the vault.
 
 ## Folder map
 
@@ -82,4 +81,4 @@ Living documentation inside the vault (`_guides/`):
 
 ## Credits
 
-Built with [Dataview](https://github.com/blacksmithgu/obsidian-dataview), [Tasks](https://github.com/obsidian-tasks-group/obsidian-tasks), [Templater](https://github.com/SilentVoid13/Templater), [Homepage](https://github.com/mirnovov/obsidian-homepage) — and vendored [three.js](NOTICE). Layout inspiration from the Obsidian dashboard community.
+Built with [Dataview](https://github.com/blacksmithgu/obsidian-dataview), [Templater](https://github.com/SilentVoid13/Templater), [Homepage](https://github.com/mirnovov/obsidian-homepage) — and vendored [three.js](NOTICE). Layout inspiration from the Obsidian dashboard community.

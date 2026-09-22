@@ -30,7 +30,7 @@ if (!days.includes(todayKey)) days.unshift(todayKey);
 // ---- header ----
 const hero = root.createDiv({ cls: "adx-panel" });
 const heroHead = hero.createDiv({ cls: "adx-section-head" });
-heroHead.createDiv({ cls: "adx-label", text: "LAB INBOX" });
+heroHead.createDiv({ cls: "adx-label", text: "INBOX" });
 const heroStat = heroHead.createDiv({ cls: "adx-hint", text: `${days.length} day${days.length === 1 ? "" : "s"} of captures` });
 const heroSub = hero.createDiv({ cls: "adx-hero-sub", text: "Capture from any dashboard lands in today's note. Select a day below to review it inline." });
 

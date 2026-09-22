@@ -31,7 +31,7 @@ const resolveCover = (cover, app) => {
 
 const head = root.createDiv({ cls: "adx-hero adx-library-hero" });
 const copy = head.createDiv({ cls: "adx-hero-copy" });
-copy.createDiv({ cls: "adx-date", text: "THE LIBRARY / LAB" });
+copy.createDiv({ cls: "adx-date", text: "THE LIBRARY" });
 copy.createEl("h1", { text: "Read what expands you." });
 copy.createDiv({ cls: "adx-focus", text: "Status, pages and rating are editable on every card." });
 const stats = head.createDiv({ cls: "adx-library-stats" });
@@ -49,7 +49,7 @@ const yaml = v => JSON.stringify(String(v || "").replace(/\n/g, " "));
 const slugify = t => t.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || `book-${Date.now()}`;
   const createBook = async book => {
     const path = normalizePath(H.path(`Books/${slugify(book.title)}.md`));
-    if (app.vault.getAbstractFileByPath(path)) return Notice("Already in the Lab shelf.");
+    if (app.vault.getAbstractFileByPath(path)) return Notice("Already in the shelf.");
     // Stage outside mapped folders, then rename — protects rich content from the light-skeleton trigger.
     const staged = await app.vault.create(normalizePath(H.path(`_core/staging-${Date.now()}.md`)), `---\ntype: book\ntitle: ${yaml(book.title)}\nauthor: ${yaml(book.authors?.[0] || "Unknown author")}\nstatus: want_to_read\nprogress: 0\ncurrent_page: 0\npages: ${book.pages || ""}\nrating:\nstarted:\nfinished:\ncover: ${yaml(book.cover)}\ndate_added: ${window.moment().format("YYYY-MM-DD")}\n---\n\n# ${book.title}\n\n${book.cover ? `![cover|200](${book.cover})` : ""}\n\n## Why this book\n\n## Quotes\n\n## Review\n`);
     await app.vault.rename(staged, path);

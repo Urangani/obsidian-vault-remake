@@ -257,7 +257,7 @@ return (function build({ dv, require, app }) {
     if (rootEl.querySelector(".sbx-home-fab")) return;
     const btn = rootEl.createDiv({ cls: "sbx-home-fab", attr: { title: "Back to Home", "aria-label": "Back to Home" } });
     icon(btn, "home");
-    btn.onclick = () => open(path("Home.md"));
+    btn.onclick = () => open(path("00 dashboards/Home.md"));
     return btn;
   }
 
@@ -303,18 +303,18 @@ return (function build({ dv, require, app }) {
 
   // ---------- cross-domain navigation rail ----------
   const NAV = [
-    ["home", "Home", "Home.md"],
-    ["inbox", "Inbox", "Inbox.md"],
-    ["check-square", "Tasks", "Tasks.md"],
-    ["book-open", "Academics", "Academics.md"],
-    ["code-2", "Programming", "Programming.md"],
-    ["rocket", "Projects", "Projects.md"],
-    ["library", "Library", "Library.md"],
-    ["briefcase-business", "Jobs", "Jobs.md"],
-    ["help-circle", "Research", "Research.md"],
-    ["heart-pulse", "Life", "Life.md"],
-    ["palette", "Culture", "Culture.md"],
-    ["activity", "Vault Health", "Vault Health.md"],
+    ["home", "Home", "00 dashboards/Home.md"],
+    ["inbox", "Inbox", "00 dashboards/Inbox.md"],
+    ["check-square", "Tasks", "00 dashboards/Tasks.md"],
+    ["book-open", "Academics", "00 dashboards/Academics.md"],
+    ["code-2", "Programming", "00 dashboards/Programming.md"],
+    ["rocket", "Projects", "00 dashboards/Projects.md"],
+    ["library", "Library", "00 dashboards/Library.md"],
+    ["briefcase-business", "Jobs", "00 dashboards/Jobs.md"],
+    ["help-circle", "Research", "00 dashboards/Research.md"],
+    ["heart-pulse", "Life", "00 dashboards/Life.md"],
+    ["palette", "Culture", "00 dashboards/Culture.md"],
+    ["activity", "Vault Health", "00 dashboards/Vault Health.md"],
   ];
   function mountNav(rootEl) {
     rootEl.classList.add("has-nav");
@@ -330,9 +330,10 @@ return (function build({ dv, require, app }) {
       rail.style.transform = "none";
     }
     const activeName = (app.workspace.getActiveFile && app.workspace.getActiveFile()?.name) || "";
+    const isActiveEntry = filename => filename === activeName || (activeName && filename.endsWith("/" + activeName));
     NAV.forEach(([iconName, label, filename]) => {
       const item = rail.createDiv({
-        cls: `sbx-nav-item${filename === activeName ? " is-active" : ""}`,
+        cls: `sbx-nav-item${isActiveEntry(filename) ? " is-active" : ""}`,
         attr: { title: label, "aria-label": label },
       });
       icon(item, iconName);
@@ -341,7 +342,7 @@ return (function build({ dv, require, app }) {
     const createBtn = rail.createDiv({ cls: "sbx-nav-item sbx-nav-create", attr: { title: "Create note", "aria-label": "Create note" } });
     icon(createBtn, "plus-circle");
     createBtn.onclick = () => app.commands.executeCommandById("atelier-tools:new-note");
-    const active = NAV.find(([,, filename]) => filename === activeName);
+    const active = NAV.find(([,, filename]) => isActiveEntry(filename));
     if (active) {
       const tab = rail.createDiv({ cls: "sbx-nav-tab", attr: { title: "Navigation", "aria-label": "Navigation" } });
       icon(tab, active[0]);
